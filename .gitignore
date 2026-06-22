@@ -3,3 +3,8 @@
 *.png
 camera_calibration.py
 
+.python-version
+*.csv
+*.txt
+
+*.npy

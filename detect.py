@@ -6,7 +6,8 @@ import time
 
 aruco_dict = aruco.getPredefinedDictionary(aruco.DICT_4X4_250)
 
-cap = cv2.VideoCapture(0)
+# cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture("http://192.168.0.150:8080/video")
 
 camera_width = 1280
 camera_height = 720
@@ -27,7 +28,7 @@ rover_marker_size = 44
 
 distances_list = {}
 csv_filename = 'distances_data.csv'
-csv_header = ['Czas_pomiaru', 'Id1', 'Id2', 'Dystans']
+csv_header = ['Time', 'Id1', 'Id2', 'Distance']
 
 def save_distanceslist(id1, id2, distances_list, distance):
     if (id2, id1) in distances_list:
@@ -52,13 +53,14 @@ def count_distance_between_markers(ids, tvecs, distances_list):
             elif id2 == rover_id:
                 id2 = rover_mark
 
+            print(f"Distance between {id1} and {id2}: {distance}")
             save_distanceslist(id1, id2, distances_list, distance)
 
 def aruco_3d_pose_display(corners, tvecs, rvecs, frame):
     aruco.drawDetectedMarkers(frame, corners)
 
     for marker in range(len(ids)):
-        aruco.drawAxis(frame, camera_matrix, camera_distortion, rvecs[marker], tvecs[marker], 100)
+        cv2.drawFrameAxes(frame, camera_matrix, camera_distortion, rvecs[marker], tvecs[marker], 100)
         cv2.putText(
             frame,
             str(ids[marker][0]),

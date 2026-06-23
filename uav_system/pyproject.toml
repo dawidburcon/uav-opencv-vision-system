@@ -1,0 +1,11 @@
+[project]
+name = "uav_system"
+version = "0.1.0"
+requires-python = ">=3.12"
+dependencies = [
+    "common",
+    "opencv-python>=4.13.0.92",
+]
+
+[tool.uv.sources]
+common = { workspace = true }
